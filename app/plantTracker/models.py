@@ -41,7 +41,9 @@ class Plant(models.Model):
 
 
 class Transfers(models.Model):
-    plant_id = models.ForeignKey(Plant, on_delete=models.SET_DEFAULT, default=0)
+    plant_id = models.ForeignKey(
+        Plant, on_delete=models.SET_DEFAULT, default=1, related_name="transfer"
+    )
     date = models.DateField()
     price = models.FloatField()
     new_owner = models.CharField(max_length=100, blank=True, default="")

@@ -19,7 +19,6 @@ class Plant(models.Model):
     date_obtained = models.DateField()
     date_died = models.DateField(blank=True, null=True)
     source = models.CharField(max_length=100, blank=True, default="")
-    next_owner = models.CharField(max_length=100, blank=True, default="")
     parent = models.ForeignKey(
         "self",
         related_name="children",
@@ -36,6 +35,13 @@ class Plant(models.Model):
 
     class Meta:
         ordering = ["date_obtained"]
-    
+
     def __str__(self):
         return self.alias
+
+
+class Transfers(models.Model):
+    plant_id = models.ForeignKey(Plant, on_delete=models.SET_DEFAULT, default=0)
+    date = models.DateField()
+    price = models.FloatField()
+    new_owner = models.CharField(max_length=100, blank=True, default="")

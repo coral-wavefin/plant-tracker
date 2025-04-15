@@ -13,6 +13,7 @@ class PlantSerializer(serializers.HyperlinkedModelSerializer):
             "source",
             "parent",
             "species",
+            # "external_api_data",
         ]
 
 

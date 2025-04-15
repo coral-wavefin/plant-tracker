@@ -20,29 +20,35 @@ class Command(BaseCommand):
             with open(csv_file_path, newline="", encoding="utf-8") as csvfile:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
+                    # Split the Botanical Name into generic_name and specific_name
+                    botanical_name = row["Botanical Name"]
+                    name_parts = botanical_name.split(" ", 1)
+                    generic_name = name_parts[0]
+                    specific_name = name_parts[1] if len(name_parts) > 1 else ""
+
                     # Check if the species already exists
                     if not Species.objects.filter(
-                        generic_name=row["generic_name"],
-                        specific_name=row["specific_name"],
+                        generic_name=generic_name,
+                        specific_name=specific_name,
                     ).exists():
                         Species.objects.create(
-                            generic_name=row["generic_name"],
-                            specific_name=row["specific_name"],
-                            common_name=row["common_name"],
-                            light_requirements=row["light_requirements"],
-                            watering_frequency=row["watering_frequency"],
-                            soil_type=row["soil_type"],
-                            temperature_range=row["temperature_range"],
+                            generic_name=generic_name,
+                            specific_name=specific_name,
+                            common_name=row["Common Name"],
+                            light_requirements=row["Light Requirements"],
+                            watering_frequency=row["Watering Frequency"],
+                            soil_type=row["Soil Type"],
+                            temperature_range=row["Temperature Range"],
                         )
                         self.stdout.write(
                             self.style.SUCCESS(
-                                f"Added species: {row['generic_name']} {row['specific_name']}"
+                                f"Added species: {generic_name} {specific_name}"
                             )
                         )
                     else:
                         self.stdout.write(
                             self.style.WARNING(
-                                f"Species already exists: {row['generic_name']} {row['specific_name']}"
+                                f"Species already exists: {generic_name} {specific_name}"
                             )
                         )
             self.stdout.write(self.style.SUCCESS("Data loading completed!"))

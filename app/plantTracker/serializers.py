@@ -20,7 +20,7 @@ class PlantSerializer(serializers.HyperlinkedModelSerializer):
 class SpeciesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Species
-        fields = ['generic_name', 'specific_name','common_name']
+        fields = "__all__"
 
 
 class TransfersSerializer(serializers.HyperlinkedModelSerializer):
